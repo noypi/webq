@@ -66,18 +66,35 @@ func (this *Server) initHandlers() {
 		}
 		return as
 	}
-	this.mux.Handle("/auth",
+	this.mux.Handle("/login/auth",
 		webutil.MidSeqFunc(this.hAuthenticate,
 			mdef()...,
 		),
 	)
 
-	this.mux.Handle("/subscribe",
+	this.mux.Handle("/login/authpass",
+		webutil.MidSeqFunc(this.hAuthenticate,
+			mdef()...,
+		),
+	)
+
+	this.mux.Handle("/info/client/subscriptions",
+		webutil.MidSeqFunc(this.hAuthenticate,
+			mdef()...,
+		),
+	)
+	this.mux.Handle("/info/server/pubk",
+		webutil.MidSeqFunc(this.hAuthenticate,
+			mdef()...,
+		),
+	)
+
+	this.mux.Handle("/msg/subscribe",
 		webutil.MidSeqFunc(this.hSubscribe,
 			mdef(mfn(hValidate))...,
 		))
 
-	this.mux.Handle("/register",
+	this.mux.Handle("/msg/register",
 		webutil.MidSeqFunc(hRegister,
 			mdef(mfn(hValidate))...,
 		))
